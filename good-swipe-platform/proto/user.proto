@@ -1,0 +1,120 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "./proto";
+
+service UserService {
+  rpc CreateUser(CreateUserRequest)
+      returns (CreateUserResponse);
+
+  rpc UpdateProgress(UpdateProgressRequest)
+      returns (UpdateProgressResponse);
+
+  rpc EnterTournament(EnterTournamentRequest)
+    returns (EnterTournamentResponse);
+
+  rpc ClaimReward(ClaimRewardRequest)
+    returns (ClaimRewardResponse);
+
+  rpc GetGlobalLeaderboard(GetGlobalLeaderboardRequest)
+    returns (GetGlobalLeaderboardResponse);
+
+  rpc GetTournamentLeaderboard(GetTournamentLeaderboardRequest)
+    returns (GetTournamentLeaderboardResponse);
+
+  rpc GetTournamentRank(GetTournamentRankRequest)
+    returns (GetTournamentRankResponse);
+
+  rpc GetUserTournaments(GetUserTournamentsRequest)
+    returns (GetUserTournamentsResponse);
+    
+}
+
+
+message CreateUserRequest {
+  string display_name = 1;
+}
+
+message CreateUserResponse {
+  string user_id = 1;
+  int32 level = 2;
+  int32 coins = 3;
+}
+
+message UpdateProgressRequest {
+  string user_id = 1;
+  int32 progress_amount = 2;
+}
+
+message UpdateProgressResponse {
+  string user_id = 1;
+  int32 level = 2;
+  int32 coins = 3;
+}
+
+message EnterTournamentRequest {
+  string user_id = 1;
+}
+
+message EnterTournamentResponse {
+  string tournament_id = 1;
+  int32 remaining_coins = 2;
+}
+
+message ClaimRewardRequest {
+  string user_id = 1;
+}
+
+message ClaimRewardResponse {
+  string user_id = 1;
+  int32 reward_coins = 2;
+  int32 total_coins = 3;
+  string message = 4;
+}
+
+message LeaderboardEntry {
+  string user_id = 1;
+  string display_name = 2;
+  int32 score = 3;
+}
+
+message GetGlobalLeaderboardRequest {}
+
+message GetGlobalLeaderboardResponse {
+  repeated LeaderboardEntry entries = 1;
+}
+
+message GetTournamentLeaderboardRequest {
+  string user_id = 1;
+}
+
+message GetTournamentLeaderboardResponse {
+  repeated LeaderboardEntry entries = 1;
+}
+
+message GetTournamentRankRequest {
+  string user_id = 1;
+}
+
+message GetTournamentRankResponse {
+  string user_id = 1;
+  int32 rank = 2;
+  int32 score = 3;
+}
+
+message UserTournamentEntry {
+  string tournament_id = 1;
+  string group_id = 2;
+  int32 score = 3;
+  int32 rank = 4;
+  bool claimed = 5;
+}
+
+message GetUserTournamentsRequest {
+  string user_id = 1;
+}
+
+message GetUserTournamentsResponse {
+  repeated UserTournamentEntry tournaments = 1;
+}
